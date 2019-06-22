@@ -96,11 +96,11 @@ function assignAccountNumberStatus(acctNum) {
   if (acctNum.includes('?')) {
     return acctNum + " ILL"
   } else {
-    return checkSum(acctNum) ? acctNum : acctNum + " ERR"
+    return checksum(acctNum) ? acctNum : acctNum + " ERR"
   }
 }
 
-function checkSum(acctNum){
+function checksum(acctNum){
   const cs = acctNum.split('').reduce((acc, val, i) => {
     return parseInt(acc) + ((9 - i) * parseInt(val));
   }, 0)
