@@ -55,26 +55,28 @@ function parseAcctNumbers(startingIndex = 0) {
   parseAcctNumbers(startingIndex + 4)
 }
 
+//returns a 9 digit acct number ie 123456789
 function produceDigits(scannedAcctNumber, startIndex, acctNum) {
   //get out if we've reached the end of the scanned acct number
   if (startIndex > 24) {
     return acctNum
   }
 
+  //returns a single digit
   const getScannedDigit = (startIndex, scannedDigit) => {
     //get out if we've reached the end of the scanned digit
     if (scannedDigit.length === 9) {
       return scannedDigit
     }
 
-    //build the digit 3 characters at a time
+    //build the digit 3 scanned characters at a time
     const digitFragment = scannedAcctNumber.slice(startIndex, startIndex + 3);
 
     //shift 27 characters down the string to get to the next "line" and concat the latest 3 characters
     return getScannedDigit(startIndex + 27, scannedDigit + digitFragment )
   }
 
-  //compile each scanned digit
+  //get a digit
   const scannedDigit = getScannedDigit(startIndex, '')
 
   //bastardize key/value roles and look up the number character key using the scanned digit string value
@@ -88,7 +90,7 @@ function produceDigits(scannedAcctNumber, startIndex, acctNum) {
   //replace illegible digits
   num = num === undefined ? '?' : num
 
-  //move on to the next digit and concat the latest actual digit to the account number
+  //move on to the next digit and concat the latest digit to the account number
   return produceDigits(scannedAcctNumber, startIndex + 3, acctNum + num )
 }
 
